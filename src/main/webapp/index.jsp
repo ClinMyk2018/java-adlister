@@ -8,9 +8,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>$Title$</title>
+    <title>Title</title>
+    <%@ include file="partials/headlinks.jsp" %>
+
 </head>
+
 <body>
-$END$
+<%@ include file="partials/navbar.jsp" %>
+<%--<%@ include file="partials/jumbo.jsp"%>--%>
+
+<%@include file="partials/scriptlinks.jsp"%>
+
 </body>
 </html>
