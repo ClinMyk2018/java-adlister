@@ -11,6 +11,7 @@
     <title>Title</title>
     <%@ include file="partials/headlinks.jsp" %>
 
+
 </head>
 
 <body>
