@@ -3,15 +3,15 @@ package sql;
 class Config {
 
         public String getUrl() {
-            return "jdbc:mysql://localhost/ads_db?serverTimezone=UTC&useSSL=false";
+            return "jdbc:mysql://localhost/codeup_test_db?serverTimezone=UTC&useSSL=false";
         }
 
         public String getUsername() {
-            return "someuser";
+            return "root";
         }
 
         public String getPassword() {
-            return "strongpassword";
+            return "codeup";
         }
 }
 
