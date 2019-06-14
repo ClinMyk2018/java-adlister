@@ -6,6 +6,7 @@ import java.util.List;
 public class MySQLAdsDao implements Ads {
     private Connection connection;
 
+
     public MySQLAdsDao() {
         try {
             Config config = new Config();
@@ -18,6 +19,16 @@ public class MySQLAdsDao implements Ads {
         } catch (SQLException e) {
             throw new RuntimeException("Error connecting to the database!", e);
         }
+    }
+
+    public MySQLAdsDao(String sql) throws SQLException {
+        Config config = new Config();
+        DriverManager.registerDriver(new Driver());
+        connection = DriverManager.getConnection(
+                config.getUrl(),
+                config.getUsername(),
+                config.getPassword()
+        );
     }
 
 
@@ -50,27 +61,27 @@ public class MySQLAdsDao implements Ads {
     }
 
     @Override
-    public Long insert(Ad ad) {
-        long UserId = ad.getUserId();
-        String Title = ad.getTitle();
-        String Desc = ad.getDescription();
-        String insertNew = String.format("INSERT INTO ads( user_id, title, description)" +
-                " VALUES (%d, '%s', '%s')" ,UserId, Title, Desc);
+    public Long insert(Ad ad) throws SQLException {
+        String add = addAd(ad);
         Statement stmt;
-        try {
             stmt = connection.createStatement();
-            stmt.executeUpdate(insertNew, Statement.RETURN_GENERATED_KEYS);
+            stmt.executeUpdate(add, Statement.RETURN_GENERATED_KEYS);
             ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
                 System.out.println("Inserted a new Ad! New Ad ID: " + rs.getLong(1));
             }
-        } catch (SQLException e) {
-            throw new RuntimeException("error inserting ads", e);
-        }
 
         return null;
     }
 
-
+    public String addAd(Ad ad) throws SQLException {
+        long UserId = ad.getUserId();
+        String Title = ad.getTitle();
+        String Desc = ad.getDescription();
+        String sql = String.format("INSERT INTO ads( user_id, title, description)" +
+                " VALUES (%d, '%s', '%s')" ,UserId, Title, Desc);
+        new MySQLAdsDao(sql);
+        return sql;
+    }
 
 }
