@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -11,7 +10,7 @@
 <jsp:include page="/WEB-INF/partials/navbar.jsp" />
 
 <div class="container">
-    <h1 style="color: dodgerblue;">Here Are all the ads!</h1>
+    <h1 style="color: dodgerblue;">Which ads would you like to delete?!</h1>
 
     <c:forEach var="ad" items="${ads}">
         <div class="col-md-6" style="color: lightslategray; border: 2px solid dodgerblue; border-radius: 5px; margin: 2rem;">
@@ -20,6 +19,5 @@
         </div>
     </c:forEach>
 </div>
-
 </body>
 </html>
