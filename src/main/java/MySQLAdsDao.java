@@ -74,12 +74,34 @@ public class MySQLAdsDao implements Ads {
         return null;
     }
 
+
     public String addAd(Ad ad) throws SQLException {
         long UserId = ad.getUserId();
         String Title = ad.getTitle();
         String Desc = ad.getDescription();
         String sql = String.format("INSERT INTO ads( user_id, title, description)" +
                 " VALUES (%d, '%s', '%s')" ,UserId, Title, Desc);
+        new MySQLAdsDao(sql);
+        return sql;
+    }
+
+    @Override
+    public long delete(Ad ad) throws SQLException {
+        String delete = deleteAd(ad);
+        Statement stmt;
+        stmt = connection.createStatement();
+        stmt.executeUpdate(delete, Statement.RETURN_GENERATED_KEYS);
+        ResultSet rs = stmt.getGeneratedKeys();
+        if (rs.next()) {
+            System.out.println("Deleted an Ad!");
+        }
+
+        return Long.parseLong("");
+    }
+
+    public String deleteAd(Ad ad) throws SQLException {
+        long Id = ad.getId();
+        String sql = String.format("DELETE FROM ads WHERE id = (%d)" ,Id);
         new MySQLAdsDao(sql);
         return sql;
     }
