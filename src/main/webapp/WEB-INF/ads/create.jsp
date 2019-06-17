@@ -5,6 +5,7 @@
         <jsp:param name="title" value="Create a new Ad" />
     </jsp:include>
 </head>
+
 <body>
     <div class="container">
         <h1>Create a new Ad</h1>
