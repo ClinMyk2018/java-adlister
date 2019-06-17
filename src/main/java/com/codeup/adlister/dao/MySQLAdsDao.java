@@ -18,7 +18,7 @@ public class MySQLAdsDao implements Ads {
             DriverManager.registerDriver(new Driver());
             connection = DriverManager.getConnection(
                 config.getUrl(),
-                config.getUser(),
+                config.getUsername(),
                 config.getPassword()
             );
         } catch (SQLException e) {
@@ -30,8 +30,9 @@ public class MySQLAdsDao implements Ads {
     public List<Ad> all() {
         Statement stmt = null;
         try {
-            stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM ads");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ads");
+//            stmt = connection.createStatement();
+            ResultSet rs = preparedStatement.executeQuery();
             return createAdsFromResults(rs);
         } catch (SQLException e) {
             throw new RuntimeException("Error retrieving all ads.", e);
@@ -41,9 +42,10 @@ public class MySQLAdsDao implements Ads {
     @Override
     public Long insert(Ad ad) {
         try {
-            Statement stmt = connection.createStatement();
-            stmt.executeUpdate(createInsertQuery(ad), Statement.RETURN_GENERATED_KEYS);
-            ResultSet rs = stmt.getGeneratedKeys();
+            PreparedStatement preparedStatement = connection.prepareStatement(createInsertQuery(ad));
+//            Statement stmt = connection.createStatement();
+            preparedStatement.executeUpdate(createInsertQuery(ad), Statement.RETURN_GENERATED_KEYS);
+            ResultSet rs = preparedStatement.getGeneratedKeys();
             rs.next();
             return rs.getLong(1);
         } catch (SQLException e) {

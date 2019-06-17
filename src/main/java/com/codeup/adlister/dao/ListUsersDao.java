@@ -1,58 +1,51 @@
 package com.codeup.adlister.dao;
 
 import com.codeup.adlister.models.Ad;
+import com.codeup.adlister.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListAdsDao implements Ads {
-    private List<Ad> ads;
+public class ListUsersDao implements Users {
+    private List<User> users;
 
-    public List<Ad> all() {
-        if (ads == null) {
-            ads = generateAds();
+    public List<User> all() {
+        if (users == null) {
+            users = generateUser();
         }
-        return ads;
+        return users;
     }
 
-    public Long insert(Ad ad) {
-        // make sure we have ads
-        if (ads == null) {
-            ads = generateAds();
+
+    @Override
+    public Long insert(User user) {
+        if (users == null) {
+            users = generateUser();
         }
-        // we'll assign an "id" here based on the size of the ads list
-        // really the dao would handle this
-        ad.setId((long) ads.size());
-        ads.add(ad);
-        return ad.getId();
+        user.setId(users.size());
+        users.add(user);
+        return user.getId();
     }
 
-    private List<Ad> generateAds() {
-        List<Ad> ads = new ArrayList<>();
-        ads.add(new Ad(
-            1,
-            1,
-            "playstation for sale",
-            "This is a slightly used playstation"
+    private List<User> generateUser() {
+        List<User> user = new ArrayList<>();
+        users.add(new User(
+                1,
+                "BigDude",
+                "BigDude@live.com",
+                "codeup"
         ));
-        ads.add(new Ad(
-            2,
-            1,
-            "Super Nintendo",
-            "Get your game on with this old-school classic!"
+        users.add(new User(
+                2,
+                "BigGirl",
+                "BigGirl@live.com",
+                "codeup"
         ));
-        ads.add(new Ad(
-            3,
-            2,
-            "Junior Java Developer Position",
-            "Minimum 7 years of experience required. You will be working in the scripting language for Java, JavaScript"
-        ));
-        ads.add(new Ad(
-            4,
-            2,
-            "JavaScript Developer needed",
-            "Must have strong Java skills"
-        ));
-        return ads;
+        return users;
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return null;
     }
 }
