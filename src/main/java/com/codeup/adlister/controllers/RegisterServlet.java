@@ -32,7 +32,7 @@ public class RegisterServlet extends HttpServlet {
 
         if (validAttempt) {
             // TODO: store the logged in user object in the session, instead of just the username
-            request.getSession().setAttribute("user", user);
+            request.getSession().setAttribute("username", user);
             response.sendRedirect("/profile");
         } else {
             response.sendRedirect("/login");

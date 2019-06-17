@@ -11,7 +11,7 @@
 
     <div class="container">
         <h1>Welcome,
-            <c:out value=" ${sessionScope.user}!" />
+            <c:out value=" ${sessionScope.user.username}!" />
         </h1>
     </div>
 

@@ -1,6 +1,5 @@
 package com.codeup.adlister.dao;
 
-import com.codeup.adlister.models.Ad;
 import com.codeup.adlister.models.User;
 
 import java.util.ArrayList;
@@ -9,13 +8,18 @@ import java.util.List;
 public class ListUsersDao implements Users {
     private List<User> users;
 
-    public List<User> all() {
+    public List<User> all(String username) {
         if (users == null) {
             users = generateUser();
         }
         return users;
     }
 
+
+    @Override
+    public boolean findByUsername(String username, String password) {
+        return Boolean.parseBoolean(null);
+    }
 
     @Override
     public Long insert(User user) {
@@ -42,10 +46,5 @@ public class ListUsersDao implements Users {
                 "codeup"
         ));
         return users;
-    }
-
-    @Override
-    public User findByUsername(String username) {
-        return null;
     }
 }

@@ -24,37 +24,37 @@ public class MySQLUsersDao implements Users {
     }
 
 
-    private String createInsertQuery(User user) {
-        return "INSERT INTO users(id, username, email, password) VALUES "
-                + "(" + user.getId() + ", "
-                + "'" + user.getUsername() + "', "
-                + "'" + user.getEmail() + "', "
-                + "'" + user.getPassword() + "')";
-    }
-
     private User extractUser(ResultSet rs) throws SQLException {
         return new User(
-                rs.getLong(1),
+                rs.getLong("id"),
                 rs.getString("username"),
                 rs.getString("email"),
                 rs.getString("password")
         );
     }
 
-
     @Override
-    public User findByUsername(String username) {
+    public boolean findByUsername(String username, String password) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement
-                    ("select * from users where username = ?");
+                    ("select * from users where username =? AND password =?");
             preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
             ResultSet rs = preparedStatement.executeQuery();
-            rs.next();
-            return extractUser(rs);
-
+            if(rs.next()){
+                return true;
+            }
         } catch (SQLException e) {
-            throw new RuntimeException("Error retrieving User.", e);
+            e.printStackTrace();
         }
+        return false;
+    }
+
+    private String createInsertQuery(User user) {
+        return "INSERT INTO users(username, email, password) VALUES "
+                + "'" + user.getUsername() + "', "
+                + "'" + user.getEmail() + "', "
+                + "'" + user.getPassword() + "')";
     }
 
     @Override
@@ -79,9 +79,19 @@ public class MySQLUsersDao implements Users {
     }
 
     @Override
-    public List<User> all() {
+    public List<User> all(String username) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users");
+            PreparedStatement preparedStatement = connection.prepareStatement
+//                    ("SELECT * FROM ads"
+//                    ("SELECT * FROM users"
+                    ("SELECT * FROM ads" +
+                            " WHERE user_id IN " +
+                            "(SELECT users.id " +
+                            "FROM users " +
+                            "WHERE username = ? " +
+                            ");"
+                    );
+            preparedStatement.setString(1, username);
             ResultSet rs = preparedStatement.executeQuery();
             return createUserFromResults(rs);
         } catch (SQLException e) {
