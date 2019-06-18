@@ -12,13 +12,14 @@
         <form action="/login" method="POST">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input id="username" name="username" class="form-control" type="text">
+                <input id="username" name="username" class="form-control" type="text" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input id="password" name="password" class="form-control" type="password">
+                <input id="password" name="password" class="form-control" type="password" required>
             </div>
             <input type="submit" class="btn btn-primary btn-block" value="Log In">
+            <a href="/register">No account? Register here!</a>
         </form>
     </div>
 </body>

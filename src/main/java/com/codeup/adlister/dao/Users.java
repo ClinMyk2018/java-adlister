@@ -8,5 +8,4 @@ public interface Users {
     boolean findByUsername(String username, String password);
     Long insert(User user);
     List<User> all(String username);
-
 }
